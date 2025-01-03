@@ -64,5 +64,21 @@ if not st.sidebar.checkbox("Hide Graphics", False):
         fig = px.pie(sentiment_count, values='Tweets', names='Sentiment', height=400)
         st.plotly_chart(fig)
 
+st.sidebar.subheader("When and where are the users tweeting from?")
+hour = st.sidebar.slider("Hour of day", 0, 23)
+modified_data = data[data['tweet_created'].dt.hour == hour]
+
 if not st.sidebar.checkbox("Hide Map", False):
-    st.map(data)
+    st.markdown("### Tweets locations based on time of day")
+    st.markdown(f"{len(modified_data)} tweets between {hour}:00 and {hour+1}:00")
+    st.map(modified_data)
+
+    if st.sidebar.checkbox("Show Tweets", False):
+        st.write(modified_data[['tweet_created','text', 'lat', 'lon']])
+
+st.sidebar.subheader("Breakdown airline by sentiment")
+choice = st.sidebar.multiselect("Airline", data["airline"].unique())
+if len(choice) > 0:
+    filtered_data = data[data['airline'].isin(choice)]
+    fig_choice = px.histogram(filtered_data, x='airline_sentiment', color='airline', histfunc='count', barmode='group', labels={'airline_sentiment':'Tweets'}, height=400)
+    st.plotly_chart(fig_choice)
