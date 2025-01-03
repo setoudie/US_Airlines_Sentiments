@@ -48,4 +48,3 @@ if not st.sidebar.checkbox("Hide", False):
         st.plotly_chart(fig)
 
 # st.map(data)
-st.write(data.tweet_coord.values.to_list[820][0])
