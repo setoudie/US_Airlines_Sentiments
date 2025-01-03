@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93be1e88-3cdc-495d-8000-904b233c72e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/US_Airlines_Sentiments.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/US_Airlines_Sentiments.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="93be1e88-3cdc-495d-8000-904b233c72e2" name="Changes" comment="rqrmt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,12 +108,43 @@
       <updated>1735864473330</updated>
       <workItem from="1735864475036" duration="1144000" />
       <workItem from="1735866884063" duration="6670000" />
-      <workItem from="1735873673845" duration="4751000" />
+      <workItem from="1735873673845" duration="5463000" />
     </task>
+    <task id="LOCAL-00001" summary="diagrammes">
+      <option name="closed" value="true" />
+      <created>1735878535042</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1735878535042</updated>
+    </task>
+    <task id="LOCAL-00002" summary="diagrammes stable">
+      <option name="closed" value="true" />
+      <created>1735878584005</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1735878584005</updated>
+    </task>
+    <task id="LOCAL-00003" summary="rqrmt">
+      <option name="closed" value="true" />
+      <created>1735878819681</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1735878819681</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="diagrammes" />
+    <MESSAGE value="diagrammes stable" />
+    <MESSAGE value="rqrmt" />
+    <option name="LAST_COMMIT_MESSAGE" value="rqrmt" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Streamlit$kagle_data.coverage" NAME="kagle_data Coverage Results" MODIFIED="1735865409087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
