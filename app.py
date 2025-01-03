@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from faker import Faker
+from wordcloud import wordcloud
+import matplotlib.pyplot as plt
 
 st.title("US Airlines Sentiments")
 st.sidebar.title("US Airlines Sentiments")
@@ -13,6 +15,21 @@ DATA_URL = "Tweets.csv"
 
 
 def extract_lat_long(tweet_coord):
+    """
+    Extracts latitude and longitude from a string containing coordinates.
+
+    This function processes a string representation of geographical coordinates in the
+    format "[latitude,longitude]" and attempts to extract latitude and longitude values
+    as floating-point numbers. If the input string is not in the correct format or if
+    conversion to float fails, it returns None for both latitude and longitude.
+
+    :param tweet_coord: A string representing geographical coordinates in the format
+        "[latitude,longitude]".
+    :type tweet_coord: str
+    :return: A tuple containing latitude and longitude as floats if successfully parsed,
+        or (None, None) if parsing or conversion fails.
+    :rtype: tuple(float, float) | tuple(None, None)
+    """
     if isinstance(tweet_coord, str) and ',' in tweet_coord:
         try:
             lat, long = tweet_coord.strip("[]").split(',')
@@ -24,6 +41,17 @@ def extract_lat_long(tweet_coord):
 
 @st.cache_data(persist=True)
 def load_data():
+    """
+    Loads and processes the tweet data from a pre-defined data source. The function attempts
+    to read the data, convert specific columns, and enrich the data with geographical
+    coordinates. If data loading fails, the operation is halted with an error message.
+
+    :return: A pandas DataFrame containing the processed tweet data with added fields for
+        'lat' (latitude) and 'lon' (longitude).
+    :rtype: pandas.DataFrame
+
+    :raises Exception: When the data source cannot be read, or an error occurs in processing.
+    """
     faker = Faker()
     try:
         data = pd.read_csv(DATA_URL)
@@ -82,3 +110,60 @@ if len(choice) > 0:
     filtered_data = data[data['airline'].isin(choice)]
     fig_choice = px.histogram(filtered_data, x='airline_sentiment', color='airline', histfunc='count', barmode='group', labels={'airline_sentiment':'Tweets'}, height=400)
     st.plotly_chart(fig_choice)
+
+
+st.sidebar.subheader("What are the most common words?")
+word_sentiment = st.sidebar.radio("Displays wordcloud for what sentiment?", data["airline_sentiment"].unique(), index=0)
+
+# Constants for word cloud settings
+WORDCLOUD_WIDTH = 800
+WORDCLOUD_HEIGHT = 400
+WORDCLOUD_RANDOM_STATE = 21
+WORDCLOUD_MAX_FONT_SIZE = 119
+
+
+def display_wordcloud(filtered_data, sentiment):
+    """
+    Generate and display a word cloud visualization for the text data corresponding
+    to a specific sentiment. This function uses a combination of word frequency and
+    visual aesthetics to create a graphical representation, offering insights into
+    the common words associated with the provided sentiment data.
+
+    :param filtered_data: Contains the filtered data frame with a 'text' column
+        holding the text data. Ensure the data is pre-filtered for the desired
+        sentiment before invoking this function.
+    :type filtered_data: pandas.DataFrame
+    :param sentiment: Specifies the sentiment category for which the word cloud
+        is generated. It is used as contextual information for filtering or
+        annotation purposes when interacting with the function.
+    :type sentiment: str
+    :return: None. The function renders a word cloud image directly into the
+        Streamlit application interface using Matplotlib and Streamlit's
+        rendering tools.
+    :rtype: None
+    """
+    # Combine all text related to the sentiment
+    wordcloud_data = filtered_data['text'].str.cat(sep=' ')
+
+    # Generate the word cloud object
+    wordcloud_object = wordcloud.WordCloud(
+        width=WORDCLOUD_WIDTH,
+        height=WORDCLOUD_HEIGHT,
+        random_state=WORDCLOUD_RANDOM_STATE,
+        max_font_size=WORDCLOUD_MAX_FONT_SIZE
+    ).generate(wordcloud_data)
+
+    # Create a figure and axes for Matplotlib
+    fig, ax = plt.subplots()
+    ax.imshow(wordcloud_object, interpolation="bilinear")
+    ax.axis("off")
+
+    # Display the plot using Streamlit
+    st.pyplot(fig)
+
+
+# Sidebar interaction
+if st.sidebar.checkbox("Display Wordcloud", False):
+    st.markdown(f"### Wordcloud for {word_sentiment}")
+    filtered_data = data[data['airline_sentiment'] == word_sentiment]
+    display_wordcloud(filtered_data, word_sentiment)
